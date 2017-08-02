@@ -19,7 +19,7 @@ limitations under the License.
 var React = require('react');
 
 const i = [1, 2, 3, 4, 5][Math.floor(Math.random() * 5)];
-const DEFAULT_LOGO_URI = "img/logos/riot-logo-" + i + ".svg";
+const DEFAULT_LOGO_URI = "home/images/logo.png";
 
 module.exports = React.createClass({
     displayName: 'VectorLoginHeader',
