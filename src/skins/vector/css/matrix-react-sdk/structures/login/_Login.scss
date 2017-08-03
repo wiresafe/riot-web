@@ -137,6 +137,13 @@ limitations under the License.
     color: $primary-fg-color;
 }
 
+.mx_Login_label_home {
+    margin-top: 20px;
+    font-size: 50px;
+    opacity: 0.8;
+    margin-left: 60px;
+}
+
 .mx_Login_loader {
     display: inline;
     position: relative;
@@ -166,6 +173,11 @@ limitations under the License.
 
 .mx_Login_type_container {
     display: flex;
+    margin-bottom: 14px;
+}
+
+.mx_Login_type_container_home {
+    display: none;
     margin-bottom: 14px;
 }
 

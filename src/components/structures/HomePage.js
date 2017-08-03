@@ -43,6 +43,29 @@ module.exports = React.createClass({
         };
     },
 
+    showForm: function(){
+      var wireForm = document.getElementById('formDiv');
+      if (wireForm.style.display == 'none' || wireForm.style.display == '') {
+        wireForm.style.display = 'block';
+      }
+      else {
+        wireForm.style.display = 'none';
+      }
+    },
+
+    saveFormData: function(){
+      var bankName = document.getElementById('bName');
+      var bankAddress = document.getElementById('bAddress');
+      var accountOwnerName = document.getElementById('accOwnerName');
+      var bankRoutingNumber = document.getElementById('bRoutingNumber');
+      var bankAccNumber = document.getElementById('bAccountNumber');
+      localStorage.setItem("bankName", bankName.value);
+      localStorage.setItem("bankAddress", bankAddress.value);
+      localStorage.setItem("accountOwnerName", accountOwnerName.value);
+      localStorage.setItem("bankRoutingNumber", bankRoutingNumber.value);
+      localStorage.setItem("bankAccNumber", bankAccNumber.value);
+    },
+
     translate: function(s) {
         s = sanitizeHtml(_t(s));
         // ugly fix for https://github.com/vector-im/riot-web/issues/4243
@@ -52,6 +75,8 @@ module.exports = React.createClass({
     },
 
     componentWillMount: function() {
+        this._unmounted = false;
+
         if (this.props.teamToken && this.props.teamServerUrl) {
             this.setState({
                 iframeSrc: `${this.props.teamServerUrl}/static/${this.props.teamToken}/home.html`
@@ -67,9 +92,14 @@ module.exports = React.createClass({
             request(
                 { method: "GET", url: src },
                 (err, response, body) => {
+                    if (this._unmounted) {
+                        return;
+                    }
+
                     if (err || response.status < 200 || response.status >= 300) {
-                        console.log(err);
-                        this.setState({ page: "Couldn't load home page" });
+                        console.warn(`Error loading home page: ${err}`);
+                        this.setState({ page: _t("Couldn't load home page") });
+                        return;
                     }
 
                     body = body.replace(/_t\(['"]([\s\S]*?)['"]\)/mg, (match, g1)=>this.translate(g1));
@@ -77,6 +107,10 @@ module.exports = React.createClass({
                 }
             );
         }
+    },
+
+    componentWillUnmount: function() {
+        this._unmounted = true;
     },
 
     render: function() {
@@ -90,7 +124,24 @@ module.exports = React.createClass({
         else {
             return (
                 <GeminiScrollbar autoshow={true} className="mx_HomePage">
-                    <div className="mx_HomePage_body" dangerouslySetInnerHTML={{ __html: this.state.page }}>
+                    <div className="mx_HomePage_body">
+                      <div className = "mx_Login_box">
+                          <div className="mx_Login_logo">
+                            <img src="home/images/logo.png"/>
+                          </div>
+                          <button className = "mx_Login_submit" onClick={this.showForm}>Send Wire Transfer</button>
+                          <div id ='formDiv' className = "mx_Login_type_container_home">
+                            <form>
+                              <input type="text" id = 'bName' className = "mx_Login_field" name = "bankName" placeholder="Bank Name"/>
+                              <input type="text" id = 'bAddress' className = "mx_Login_field" name = "bankAddress" placeholder="Bank Address"/>
+                              <input type="text" id = 'accOwnerName' className = "mx_Login_field" name = "accountOwnerName" placeholder="Account Owner Name"/>
+                              <input type="text" id = 'bRoutingNumber' className = "mx_Login_field" name = "bankRoutingNumber" placeholder="Bank Routing Number"/>
+                              <input type="text" id = 'bAccountNumber' className = "mx_Login_field" name = "bankAccountNumber" placeholder="Bank Account Number"/>
+                              <input type="reset" className = "mx_Login_label_home" value = " Reset "/>
+                              <input type="button" onClick={this.saveFormData} className = "mx_Login_label_home" value = "Submit"/>
+                            </form>
+                          </div>
+                        </div>
                     </div>
                 </GeminiScrollbar>
             );
