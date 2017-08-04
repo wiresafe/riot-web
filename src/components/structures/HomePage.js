@@ -23,6 +23,12 @@ import request from 'browser-request';
 import { _t } from 'matrix-react-sdk/lib/languageHandler';
 import sanitizeHtml from 'sanitize-html';
 
+var _languageHandler = require('../../../node_modules/matrix-react-sdk/lib/languageHandler');
+var dis = require('matrix-react-sdk/lib/dispatcher');
+var _react = require('react');
+var _react2 = _interopRequireDefault(_react);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 module.exports = React.createClass({
     displayName: 'HomePage',
 
@@ -59,11 +65,30 @@ module.exports = React.createClass({
       var accountOwnerName = document.getElementById('accOwnerName');
       var bankRoutingNumber = document.getElementById('bRoutingNumber');
       var bankAccNumber = document.getElementById('bAccountNumber');
-      localStorage.setItem("bankName", bankName.value);
-      localStorage.setItem("bankAddress", bankAddress.value);
-      localStorage.setItem("accountOwnerName", accountOwnerName.value);
-      localStorage.setItem("bankRoutingNumber", bankRoutingNumber.value);
-      localStorage.setItem("bankAccNumber", bankAccNumber.value);
+      if(localStorage.getItem("last_invited_roomId")){
+        if (bankName.value == '' || bankAddress.value == '' || accountOwnerName.value == '' || bankRoutingNumber.value == '' || bankAccNumber.value == ''){
+          //   _react2.default.createElement(
+          //     'div',
+          //     { className: 'mx_Login_error' },
+          //     (0, _languageHandler._t)('Please enter all the details.')
+          // )
+            alert('Please enter all the details');
+          }
+          else{
+          localStorage.setItem("bankName", bankName.value);
+          localStorage.setItem("bankAddress", bankAddress.value);
+          localStorage.setItem("accountOwnerName", accountOwnerName.value);
+          localStorage.setItem("bankRoutingNumber", bankRoutingNumber.value);
+          localStorage.setItem("bankAccNumber", bankAccNumber.value);
+          dis.dispatch({
+            action: 'view_room',
+            room_id: localStorage.getItem("last_invited_roomId")
+          });
+        }
+      }
+      else{
+        alert("Please join a room before sending Wire Transfer Details!");
+      }
     },
 
     translate: function(s) {
