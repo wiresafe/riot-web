@@ -23,6 +23,7 @@ import request from 'browser-request';
 import { _t } from 'matrix-react-sdk/lib/languageHandler';
 import sanitizeHtml from 'sanitize-html';
 
+var MatrixClientPeg = require("../../../node_modules/matrix-react-sdk/lib/MatrixClientPeg");
 var _languageHandler = require('../../../node_modules/matrix-react-sdk/lib/languageHandler');
 var dis = require('matrix-react-sdk/lib/dispatcher');
 var _react = require('react');
@@ -51,12 +52,9 @@ module.exports = React.createClass({
 
     showForm: function(){
       var wireForm = document.getElementById('formDiv');
-      if (wireForm.style.display == 'none' || wireForm.style.display == '') {
-        wireForm.style.display = 'block';
-      }
-      else {
-        wireForm.style.display = 'none';
-      }
+      var wButton = document.getElementById('WireButton');
+      wireForm.style.display = 'block';
+      wButton.style.display = 'none';
     },
 
     saveFormData: function(){
@@ -75,14 +73,22 @@ module.exports = React.createClass({
             alert('Please enter all the details');
           }
           else{
-          localStorage.setItem("bankName", bankName.value);
-          localStorage.setItem("bankAddress", bankAddress.value);
-          localStorage.setItem("accountOwnerName", accountOwnerName.value);
-          localStorage.setItem("bankRoutingNumber", bankRoutingNumber.value);
-          localStorage.setItem("bankAccNumber", bankAccNumber.value);
+          var details = `Wire Transfer Details:
+          Bank Name: ${bankName.value}
+          Bank Address: ${bankAddress.value}
+          Account Owner Name: ${accountOwnerName.value}
+          Bank Routing Number: ${bankRoutingNumber.value}
+          Bank Account Number: ${bankAccNumber.value}
+          `;
+          var sendMessagePromise = MatrixClientPeg.get().sendTextMessage(localStorage.getItem("last_invited_roomId"), details);
           dis.dispatch({
             action: 'view_room',
             room_id: localStorage.getItem("last_invited_roomId")
+          });
+          sendMessagePromise.done(function(res) {
+              dis.dispatch({
+                  action: 'message_sent'
+              });
           });
         }
       }
@@ -154,16 +160,16 @@ module.exports = React.createClass({
                           <div className="mx_Login_logo">
                             <img src="home/images/logo.png"/>
                           </div>
-                          <button className = "mx_Login_submit" onClick={this.showForm}>Send Wire Transfer</button>
+                          <button id="WireButton" className = "mx_Login_submit" onClick={this.showForm}>Send Wire Transfer</button>
                           <div id ='formDiv' className = "mx_Login_type_container_home">
-                            <form>
+                            <form id = "detailsForm">
                               <input type="text" id = 'bName' className = "mx_Login_field" name = "bankName" placeholder="Bank Name"/>
                               <input type="text" id = 'bAddress' className = "mx_Login_field" name = "bankAddress" placeholder="Bank Address"/>
                               <input type="text" id = 'accOwnerName' className = "mx_Login_field" name = "accountOwnerName" placeholder="Account Owner Name"/>
                               <input type="text" id = 'bRoutingNumber' className = "mx_Login_field" name = "bankRoutingNumber" placeholder="Bank Routing Number"/>
                               <input type="text" id = 'bAccountNumber' className = "mx_Login_field" name = "bankAccountNumber" placeholder="Bank Account Number"/>
-                              <input type="reset" className = "mx_Login_label_home" value = " Reset "/>
-                              <input type="button" onClick={this.saveFormData} className = "mx_Login_label_home" value = "Submit"/>
+                              <a href="javascript:document.getElementById('detailsForm').reset();" className = "mx_Login_label_Home">Reset</a>
+                              <input type="button" onClick={this.saveFormData} className = "mx_Home_submit" value = "Submit"/>
                             </form>
                           </div>
                         </div>
