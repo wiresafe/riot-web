@@ -11,9 +11,7 @@ steps:
   - 'build'
   - '--tag=gcr.io/wiresafe-project/riot'
   - '.'
-- name: 'gcr.io/cloud-builders/gcloud'
+- name: 'gcr.io/cloud-builders/docker'
   args:
-  - 'docker'
-  - '--'
   - 'push'
   - 'gcr.io/wiresafe-project/riot'
