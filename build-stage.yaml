@@ -1,0 +1,16 @@
+steps:
+- name: 'gcr.io/cloud-builders/npm'
+  args:
+  - 'install'
+- name: 'gcr.io/cloud-builders/npm'
+  args:
+  - 'run'
+  - 'build'
+- name: 'gcr.io/cloud-builders/gsutil'
+  args:
+  - '-m'
+  - 'rsync'
+  - '-r'
+  - '-c'
+  - './webapp'
+  - 'gs://stage.chat.wiresafe.com'
