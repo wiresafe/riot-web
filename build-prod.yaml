@@ -9,7 +9,7 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args:
   - 'build'
-  - '-t gcr.io/wiresafe-project/riot'
+  - '--tag=gcr.io/wiresafe-project/riot'
   - '.'
 - name: 'gcr.io/cloud-builders/gcloud'
   args:
