@@ -23,4 +23,3 @@ steps:
   - 'replace'
   - '-f'
   - 'redeploy-prod.yaml'
-  - '--force'
