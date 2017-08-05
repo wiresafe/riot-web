@@ -3,8 +3,7 @@ steps:
     args: ['install']
   - name: gcr.io/cloud-builders/npm
     args: ['build']
-  - name: ls
-    entrypoint: bash
-    args: ['ls']
+  - name: ubuntu
+    args: ['bash', 'ls']
 #  - name: gcr.io/cloud-builders/gsutil
 #    args: ["-m", "rsync", "-r", "-c", "./webapp", "gs://stage.chat.wiresafe.com"]
