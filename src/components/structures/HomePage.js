@@ -63,7 +63,7 @@ module.exports = React.createClass({
       var accountOwnerName = document.getElementById('accOwnerName');
       var bankRoutingNumber = document.getElementById('bRoutingNumber');
       var bankAccNumber = document.getElementById('bAccountNumber');
-      if(localStorage.getItem("last_invited_roomId")){
+      if(localStorage.getItem("mx_last_room_id")){
         if (bankName.value == '' || bankAddress.value == '' || accountOwnerName.value == '' || bankRoutingNumber.value == '' || bankAccNumber.value == ''){
           //   _react2.default.createElement(
           //     'div',
@@ -80,10 +80,10 @@ module.exports = React.createClass({
           Bank Routing Number: ${bankRoutingNumber.value}
           Bank Account Number: ${bankAccNumber.value}
           `;
-          var sendMessagePromise = MatrixClientPeg.get().sendTextMessage(localStorage.getItem("last_invited_roomId"), details);
+          var sendMessagePromise = MatrixClientPeg.get().sendTextMessage(localStorage.getItem("mx_last_room_id"), details);
           dis.dispatch({
             action: 'view_room',
-            room_id: localStorage.getItem("last_invited_roomId")
+            room_id: localStorage.getItem("mx_last_room_id")
           });
           sendMessagePromise.done(function(res) {
               dis.dispatch({
