@@ -160,7 +160,7 @@ module.exports = React.createClass({
                           <div className="mx_Login_logo">
                             <img src="home/images/logo.png"/>
                           </div>
-                          <button id="WireButton" className = "mx_Login_submit" onClick={this.showForm}>Send Wire Transfer</button>
+                          <button id="WireButton" className = "mx_Login_submit" onClick={this.showForm}>Send Wiring Information</button>
                           <div id ='formDiv' className = "mx_Login_type_container_home">
                             <form id = "detailsForm">
                               <input type="text" id = 'bName' className = "mx_Login_field" name = "bankName" placeholder="Bank Name"/>
