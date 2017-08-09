@@ -197,11 +197,24 @@ limitations under the License.
     line-height: 35px;
 }
 
+.mx_Login_type_label_home {
+    flex-grow: 1;
+}
+
 .mx_Login_type_dropdown {
     display: inline-block;
     min-width: 170px;
     align-self: flex-end;
     flex: 1 1 auto;
+}
+
+.mx_Login_type_dropdown_home {
+    display: inline-block;
+    min-width: 170px;
+    align-self: flex-end;
+    flex: 1 1 auto;
+    margin-top: 17px;
+    margin-left: 22px;
 }
 
 .mx_Login_field_group {
@@ -292,6 +305,7 @@ limitations under the License.
 .mx_Dropdown mx_Login_type_dropdown{
   margin-right: 58px;
 }
+
 .mx_Login_box_postRegister {
     width: 430px;
     min-height: 450px;
