@@ -21,12 +21,16 @@ import React from 'react';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 import request from 'browser-request';
 import { _t } from 'matrix-react-sdk/lib/languageHandler';
+import sdk from 'matrix-react-sdk/lib/index';
 import sanitizeHtml from 'sanitize-html';
 
+var MatrixClientPeg = require("../../../node_modules/matrix-react-sdk/lib/MatrixClientPeg");
 var _languageHandler = require('../../../node_modules/matrix-react-sdk/lib/languageHandler');
 var dis = require('matrix-react-sdk/lib/dispatcher');
 var _react = require('react');
 var _react2 = _interopRequireDefault(_react);
+var roomList = [];
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 module.exports = React.createClass({
@@ -46,17 +50,26 @@ module.exports = React.createClass({
         return {
             iframeSrc: '',
             page: '',
+            roomName: null,
         };
     },
 
-    showForm: function(){
+    _onRoomSelection: function(rName) {
+        this.setState({ roomName: rName });
+    },
+
+    showForm: function() {
+      var rooms = MatrixClientPeg.get().getRooms();
+      if(roomList.length!=0) {
+        roomList = [];
+      }
+      for (var i=0; i<rooms.length; i++) {
+          roomList.push(<span key={rooms[i].name}>{rooms[i].name}</span>);
+      }
       var wireForm = document.getElementById('formDiv');
-      if (wireForm.style.display == 'none' || wireForm.style.display == '') {
-        wireForm.style.display = 'block';
-      }
-      else {
-        wireForm.style.display = 'none';
-      }
+      var wButton = document.getElementById('WireButton');
+      wireForm.style.display = 'block';
+      wButton.style.display = 'none';
     },
 
     saveFormData: function(){
@@ -65,8 +78,8 @@ module.exports = React.createClass({
       var accountOwnerName = document.getElementById('accOwnerName');
       var bankRoutingNumber = document.getElementById('bRoutingNumber');
       var bankAccNumber = document.getElementById('bAccountNumber');
-      if(localStorage.getItem("last_invited_roomId")){
-        if (bankName.value == '' || bankAddress.value == '' || accountOwnerName.value == '' || bankRoutingNumber.value == '' || bankAccNumber.value == ''){
+      if(localStorage.getItem("mx_last_room_id")){
+        if (this.state.roomName == null || bankName.value == '' || bankAddress.value == '' || accountOwnerName.value == '' || bankRoutingNumber.value == '' || bankAccNumber.value == ''){
           //   _react2.default.createElement(
           //     'div',
           //     { className: 'mx_Login_error' },
@@ -75,14 +88,29 @@ module.exports = React.createClass({
             alert('Please enter all the details');
           }
           else{
-          localStorage.setItem("bankName", bankName.value);
-          localStorage.setItem("bankAddress", bankAddress.value);
-          localStorage.setItem("accountOwnerName", accountOwnerName.value);
-          localStorage.setItem("bankRoutingNumber", bankRoutingNumber.value);
-          localStorage.setItem("bankAccNumber", bankAccNumber.value);
+            var rooms = MatrixClientPeg.get().getRooms();
+            var selectedRoomId = '';
+            for (var i=0; i<rooms.length; i++) {
+                if(this.state.roomName == rooms[i].name){
+                  selectedRoomId = rooms[i].roomId;
+                }
+            }
+          var details = `Wire Transfer Details:
+          Bank Name: ${bankName.value}
+          Bank Address: ${bankAddress.value}
+          Account Owner Name: ${accountOwnerName.value}
+          Bank Routing Number: ${bankRoutingNumber.value}
+          Bank Account Number: ${bankAccNumber.value}
+          `;
+          var sendMessagePromise = MatrixClientPeg.get().sendTextMessage(selectedRoomId, details);
           dis.dispatch({
             action: 'view_room',
-            room_id: localStorage.getItem("last_invited_roomId")
+            room_id: selectedRoomId,
+          });
+          sendMessagePromise.done(function(res) {
+              dis.dispatch({
+                  action: 'message_sent'
+              });
           });
         }
       }
@@ -139,6 +167,7 @@ module.exports = React.createClass({
     },
 
     render: function() {
+      const Dropdown = sdk.getComponent('elements.Dropdown');
         if (this.state.iframeSrc) {
             return (
                 <div className="mx_HomePage">
@@ -154,16 +183,23 @@ module.exports = React.createClass({
                           <div className="mx_Login_logo">
                             <img src="home/images/logo.png"/>
                           </div>
-                          <button className = "mx_Login_submit" onClick={this.showForm}>Send Wire Transfer</button>
+                          <button id="WireButton" className = "mx_Login_submit" onClick={this.showForm}>Send Wiring Information</button>
                           <div id ='formDiv' className = "mx_Login_type_container_home">
-                            <form>
+                            <form id = "detailsForm">
                               <input type="text" id = 'bName' className = "mx_Login_field" name = "bankName" placeholder="Bank Name"/>
                               <input type="text" id = 'bAddress' className = "mx_Login_field" name = "bankAddress" placeholder="Bank Address"/>
                               <input type="text" id = 'accOwnerName' className = "mx_Login_field" name = "accountOwnerName" placeholder="Account Owner Name"/>
                               <input type="text" id = 'bRoutingNumber' className = "mx_Login_field" name = "bankRoutingNumber" placeholder="Bank Routing Number"/>
                               <input type="text" id = 'bAccountNumber' className = "mx_Login_field" name = "bankAccountNumber" placeholder="Bank Account Number"/>
-                              <input type="reset" className = "mx_Login_label_home" value = " Reset "/>
-                              <input type="button" onClick={this.saveFormData} className = "mx_Login_label_home" value = "Submit"/>
+                              <label className="mx_Login_type_label_home">Send to Room: </label>
+                              <Dropdown className="mx_Login_type_dropdown_home"
+                              onOptionChange={this._onRoomSelection}
+                              value={this.state.roomName}
+                              >
+                                      {roomList}
+                              </Dropdown>
+                              <a href="javascript:document.getElementById('detailsForm').reset();" className = "mx_Login_label_Home">Reset</a>
+                              <input type="button" onClick={this.saveFormData} className = "mx_Home_submit" value = "Submit"/>
                             </form>
                           </div>
                         </div>
