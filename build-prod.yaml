@@ -9,7 +9,7 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args:
   - 'build'
-  - '--tag=gcr.io/wiresafe-project/riot'
+  - '--tag=gcr.io/wiresafe-project/riot:latest'
   - '.'
 - name: 'gcr.io/cloud-builders/docker'
   args:
@@ -21,5 +21,7 @@ steps:
   - 'CLOUDSDK_CONTAINER_CLUSTER=matrix-cluster'
   args:
   - 'replace'
+  - '--force'
+  - '--cascade'
   - '-f'
   - 'redeploy-prod.yaml'
