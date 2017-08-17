@@ -18,3 +18,5 @@ electron/pub
 /config.json
 /src/component-index.js
 !/config.json
+/matrix-js-sdk/
+/matrix-react-sdk/
