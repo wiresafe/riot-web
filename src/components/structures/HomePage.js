@@ -59,13 +59,6 @@ module.exports = React.createClass({
     },
 
     showForm: function() {
-      var rooms = MatrixClientPeg.get().getRooms();
-      if(roomList.length!=0) {
-        roomList = [];
-      }
-      for (var i=0; i<rooms.length; i++) {
-          roomList.push(<span key={rooms[i].name}>{rooms[i].name}</span>);
-      }
       var wireForm = document.getElementById('formDiv');
       var wButton = document.getElementById('WireButton');
       wireForm.style.display = 'block';
@@ -167,6 +160,13 @@ module.exports = React.createClass({
     },
 
     render: function() {
+      var rooms = MatrixClientPeg.get().getRooms();
+      if(roomList.length!=0) {
+        roomList = [];
+      }
+      for (var i=0; i<rooms.length; i++) {
+          roomList.push(<span key={rooms[i].name}>{rooms[i].name}</span>);
+      }
       const Dropdown = sdk.getComponent('elements.Dropdown');
         if (this.state.iframeSrc) {
             return (
@@ -191,13 +191,14 @@ module.exports = React.createClass({
                               <input type="text" id = 'accOwnerName' className = "mx_Login_field" name = "accountOwnerName" placeholder="Account Owner Name"/>
                               <input type="text" id = 'bRoutingNumber' className = "mx_Login_field" name = "bankRoutingNumber" placeholder="Bank Routing Number"/>
                               <input type="text" id = 'bAccountNumber' className = "mx_Login_field" name = "bankAccountNumber" placeholder="Bank Account Number"/>
-                              <label className="mx_Login_type_label_home">Send to Room: </label>
-                              <Dropdown className="mx_Login_type_dropdown_home"
-                              onOptionChange={this._onRoomSelection}
-                              value={this.state.roomName}
-                              >
-                                      {roomList}
-                              </Dropdown>
+                              <div className="container_home">
+                                <div className="one"><label className="mx_Login_type_label_home">Send to Room: </label></div>
+                                <div className="two"><Dropdown className="mx_Login_type_dropdown_home"
+                                  onOptionChange={this._onRoomSelection}
+                                  value={this.state.roomName}
+                                  >{roomList}
+                                </Dropdown></div>
+                              </div>
                               <a href="javascript:document.getElementById('detailsForm').reset();" className = "mx_Login_label_Home">Reset</a>
                               <input type="button" onClick={this.saveFormData} className = "mx_Home_submit" value = "Submit"/>
                             </form>
