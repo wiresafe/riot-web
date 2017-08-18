@@ -73,7 +73,7 @@ echo -en 'travis_fold:end:matrix-js-sdk\r'
 echo -en 'travis_fold:start:matrix-react-sdk\r'
 echo 'Setting up matrix-react-sdk'
 
-dodep wiresafe matrix-react-sdk
+dodep matrix-org matrix-react-sdk
 
 mkdir -p node_modules/matrix-react-sdk/node_modules
 ln -s ../../matrix-js-sdk node_modules/matrix-react-sdk/node_modules/
