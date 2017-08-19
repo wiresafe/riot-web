@@ -13,6 +13,6 @@ steps:
   - 'CLOUDSDK_COMPUTE_ZONE=us-central1-b'
   - 'CLOUDSDK_CONTAINER_CLUSTER=matrix-cluster'
   args:
-  - 'replace'
-  - '-f'
-  - 'redeploy-prod.yaml'
+  - 'delete'
+  - 'rs'
+  - '-l app=chat'
