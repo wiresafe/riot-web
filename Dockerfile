@@ -1,9 +1,9 @@
 FROM node:8 AS builder
 ENV NPM_CONFIG_LOGLEVEL warn
 
-RUN npm install
-RUN npm explore matrix-react-sdk -- npm install
-RUN npm explore matrix-react-sdk -- npm run build
+RUN /bin/bash 'npm install'
+RUN /bin/bash 'npm explore matrix-react-sdk -- npm install'
+RUN /bin/bash 'npm explore matrix-react-sdk -- npm run build'
 RUN npm run build
 
 FROM nginx
