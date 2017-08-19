@@ -1,9 +1,12 @@
-FROM node:6
-RUN apt-get update && apt-get install -y nginx
-RUN git clone https://github.com/wiresafe/riot-web
-WORKDIR /riot-web
+FROM node:8 AS builder
+ENV NPM_CONFIG_LOGLEVEL warn
+
 RUN npm install
-RUN scripts/fetch
+RUN npm explore matrix-react-sdk -- npm install
+RUN npm explore matrix-react-sdk -- npm run build
 RUN npm run build
-COPY ./webapp /var/www/html
+
+FROM nginx
+COPY --from=builder /riot-web/webapp /usr/share/nginx/html
 EXPOSE 80
+ENTRYPOINT ["nginx","-g","daemon off;"]
