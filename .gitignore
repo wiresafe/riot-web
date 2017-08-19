@@ -20,3 +20,4 @@ electron/pub
 !/config.json
 /matrix-js-sdk/
 /matrix-react-sdk/
+/package-lock.json

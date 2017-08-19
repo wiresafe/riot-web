@@ -4,6 +4,12 @@ steps:
   - 'install'
 - name: 'gcr.io/cloud-builders/npm'
   args:
+  - 'explore matrix-react-sdk -- npm install'
+- name: 'gcr.io/cloud-builders/npm'
+  args:
+  - 'explore matrix-react-sdk -- npm run build'
+- name: 'gcr.io/cloud-builders/npm'
+  args:
   - 'run'
   - 'build'
 - name: 'gcr.io/cloud-builders/gsutil'
