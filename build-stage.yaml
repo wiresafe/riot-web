@@ -1,23 +1,18 @@
 steps:
-- name: 'gcr.io/cloud-builders/npm'
+- name: 'gcr.io/cloud-builders/docker'
   args:
-  - 'install'
-- name: 'gcr.io/cloud-builders/npm'
-
-  args:
-  - 'npm explore matrix-react-sdk -- npm install'
-- name: 'gcr.io/cloud-builders/npm'
-  args:
-  - 'npm explore matrix-react-sdk -- npm run build'
-- name: 'gcr.io/cloud-builders/npm'
-  args:
-  - 'run'
   - 'build'
-- name: 'gcr.io/cloud-builders/gsutil'
+  - '--tag=gcr.io/wiresafe-project/riot'
+  - '.'
+- name: 'gcr.io/cloud-builders/docker'
   args:
-  - '-m'
-  - 'rsync'
-  - '-r'
-  - '-c'
-  - './webapp'
-  - 'gs://stage.chat.wiresafe.com'
+  - 'push'
+  - 'gcr.io/wiresafe-project/riot'
+- name: 'gcr.io/cloud-builders/kubectl'
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=us-central1-b'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=matrix-cluster'
+  args:
+  - 'replace'
+  - '-f'
+  - 'redeploy-prod.yaml'
