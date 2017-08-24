@@ -19,7 +19,7 @@ spec:
         app: stage-chat
     spec:
       containers:
-      - image: gcr.io/wiresafe-project/stage-chat:riot
+      - image: gcr.io/wiresafe-project/stage-chat:latest
         name: chat
         ports:
         - containerPort: 80
