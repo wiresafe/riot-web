@@ -111,6 +111,41 @@ limitations under the License.
     opacity: 0.8;
 }
 
+.mx_Login_Serverconfig {
+    width: 250px;
+    height: 300px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.mx_Login_ServerconfigImage{
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  margin-top: 10px;
+  margin-left: 190px;
+}
+
+.mx_Login_ServerconfigButton{
+  background-color: $accent-color;
+  color: $accent-fg-color;
+}
+
+.mx_Login_type_container_SettingsDiv{
+  display: none;
+}
+
+.mx_Login_field_Settings {
+    width: 220px;
+    border-radius: 3px;
+    border: 1px solid $strong-input-border-color;
+    font-weight: 300;
+    font-size: 13px;
+    padding: 9px;
+    margin-bottom: 14px;
+}
+
 .mx_Login_checkbox,
 .mx_Login_radio {
     margin-right: 10px;
