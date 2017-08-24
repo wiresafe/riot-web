@@ -16,3 +16,4 @@ steps:
   - 'delete'
   - 'rs'
   - '-l app=stage-chat'
+  - '-n chat'
