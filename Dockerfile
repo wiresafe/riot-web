@@ -1,5 +1,5 @@
 FROM node:8 AS builder
-ENV NPM_CONFIG_LOGLEVEL error
+ENV NPM_CONFIG_LOGLEVEL warn
 ADD . /riot-web/
 WORKDIR /riot-web
 RUN npm install

@@ -1,3 +1,4 @@
+# executed on check-in to branch wiresafe-stage
 steps:
 - name: 'gcr.io/cloud-builders/docker'
   args:
@@ -16,3 +17,4 @@ steps:
   - 'delete'
   - 'rs'
   - '-l app=stage-chat'
+  - '-n chat'
