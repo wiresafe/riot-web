@@ -19,7 +19,7 @@ spec:
         app: chat
     spec:
       containers:
-      - image: gcr.io/wiresafe-project/riot:latest
+      - image: gcr.io/wiresafe-project/wiresafe-prod:latest
         name: chat
         ports:
         - containerPort: 80
