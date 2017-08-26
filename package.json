@@ -66,7 +66,7 @@
     "highlight.js": "^9.0.0",
     "linkifyjs": "^2.1.3",
     "matrix-js-sdk": "0.7.13",
-    "matrix-react-sdk": "github:wiresafe/matrix-react-sdk#wiresafe-prod",
+    "matrix-react-sdk": "wiresafe/matrix-react-sdk#06e7d91848b2fe694f42295ccbd61d2a847be80d",
     "modernizr": "^3.1.0",
     "pako": "^1.0.5",
     "q": "^1.4.1",

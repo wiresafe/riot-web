@@ -1,3 +1,4 @@
+# executed on check-in to branch wiresafe-prod
 steps:
 - name: 'gcr.io/cloud-builders/docker'
   args:

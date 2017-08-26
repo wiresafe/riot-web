@@ -9,10 +9,7 @@ spec:
     matchLabels:
       app: stage-chat
   strategy:
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-    type: RollingUpdate
+    type: Recreate
   template:
     metadata:
       labels:
@@ -20,7 +17,8 @@ spec:
     spec:
       containers:
       - image: gcr.io/wiresafe-project/stage-chat:latest
-        name: chat
+        imagePullPolicy: Always
+        name: stage-chat
         ports:
         - containerPort: 80
           name: http
@@ -38,7 +36,7 @@ spec:
     name: http
     targetPort: http
   selector:
-    app: chat
+    app: stage-chat
   type: NodePort
 ---
 apiVersion: extensions/v1beta1
