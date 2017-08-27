@@ -21,3 +21,4 @@ electron/pub
 /matrix-js-sdk/
 /matrix-react-sdk/
 /package-lock.json
+/.history

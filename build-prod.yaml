@@ -3,12 +3,12 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args:
   - 'build'
-  - '--tag=gcr.io/wiresafe-project/riot'
+  - '--tag=gcr.io/wiresafe-project/riot-web-wiresafe-prod'
   - '.'
 - name: 'gcr.io/cloud-builders/docker'
   args:
   - 'push'
-  - 'gcr.io/wiresafe-project/riot'
+  - 'gcr.io/wiresafe-project/riot-web-wiresafe-prod'
 - name: 'gcr.io/cloud-builders/kubectl'
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=us-central1-b'
