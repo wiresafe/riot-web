@@ -14,6 +14,7 @@ steps:
   - 'CLOUDSDK_COMPUTE_ZONE=us-central1-b'
   - 'CLOUDSDK_CONTAINER_CLUSTER=matrix-cluster'
   args:
-  - 'set image'
+  - 'set'
+  - 'image'
   - 'deploy/stage-chat'
   - 'stage-chat=gcr.io/wiresafe-project/stage-chat:latest'
