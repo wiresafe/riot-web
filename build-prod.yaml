@@ -3,12 +3,12 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args:
   - 'build'
-  - '--tag=gcr.io/wiresafe-project/riot-web-wiresafe-prod'
+  - '--tag=gcr.io/wiresafe-project/riot-web-wiresafe-prod:$REVISION_ID'
   - '.'
 - name: 'gcr.io/cloud-builders/docker'
   args:
   - 'push'
-  - 'gcr.io/wiresafe-project/riot-web-wiresafe-prod'
+  - 'gcr.io/wiresafe-project/riot-web-wiresafe-prod:$REVISION_ID'
 - name: 'gcr.io/cloud-builders/kubectl'
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=us-central1-b'
@@ -17,5 +17,5 @@ steps:
   - 'set'
   - 'image'
   - 'deploy/chat'
-  - 'chat=gcr.io/wiresafe-project/riot-web-wiresafe-prod:latest'
+  - 'chat=gcr.io/wiresafe-project/riot-web-wiresafe-prod:$REVISION_ID'
   - '--namespace=chat'
