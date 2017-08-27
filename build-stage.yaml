@@ -18,3 +18,4 @@ steps:
   - 'image'
   - 'deploy/stage-chat'
   - 'stage-chat=gcr.io/wiresafe-project/stage-chat:latest'
+  - '--namespace=chat'
