@@ -14,7 +14,7 @@
 npm-debug.log
 electron/dist
 electron/pub
-/.idea
+**/.idea
 /config.json
 /src/component-index.js
 !/config.json
