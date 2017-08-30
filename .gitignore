@@ -18,3 +18,4 @@ electron/pub
 /config.json
 /src/component-index.js
 !/config.json
+/.history/
