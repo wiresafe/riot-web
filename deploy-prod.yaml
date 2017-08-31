@@ -9,10 +9,8 @@ spec:
     matchLabels:
       app: chat
   strategy:
+    type: Recreate
     rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-    type: RollingUpdate
   template:
     metadata:
       labels:
