@@ -21,17 +21,7 @@ import React from 'react';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 import request from 'browser-request';
 import { _t } from 'matrix-react-sdk/lib/languageHandler';
-import sdk from 'matrix-react-sdk/lib/index';
 import sanitizeHtml from 'sanitize-html';
-
-var MatrixClientPeg = require("../../../node_modules/matrix-react-sdk/lib/MatrixClientPeg");
-var _languageHandler = require('../../../node_modules/matrix-react-sdk/lib/languageHandler');
-var dis = require('matrix-react-sdk/lib/dispatcher');
-var _react = require('react');
-var _react2 = _interopRequireDefault(_react);
-var roomList = [];
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 module.exports = React.createClass({
     displayName: 'HomePage',
@@ -50,66 +40,7 @@ module.exports = React.createClass({
         return {
             iframeSrc: '',
             page: '',
-            roomName: null,
         };
-    },
-
-    _onRoomSelection: function(rName) {
-        this.setState({ roomName: rName });
-    },
-
-    showForm: function() {
-      var wireForm = document.getElementById('formDiv');
-      var wButton = document.getElementById('WireButton');
-      wireForm.style.display = 'block';
-      wButton.style.display = 'none';
-    },
-
-    saveFormData: function(){
-      var bankName = document.getElementById('bName');
-      var bankAddress = document.getElementById('bAddress');
-      var accountOwnerName = document.getElementById('accOwnerName');
-      var bankRoutingNumber = document.getElementById('bRoutingNumber');
-      var bankAccNumber = document.getElementById('bAccountNumber');
-      if(localStorage.getItem("mx_last_room_id")){
-        if (this.state.roomName == null || bankName.value == '' || bankAddress.value == '' || accountOwnerName.value == '' || bankRoutingNumber.value == '' || bankAccNumber.value == ''){
-          //   _react2.default.createElement(
-          //     'div',
-          //     { className: 'mx_Login_error' },
-          //     (0, _languageHandler._t)('Please enter all the details.')
-          // )
-            alert('Please enter all the details');
-          }
-          else{
-            var rooms = MatrixClientPeg.get().getRooms();
-            var selectedRoomId = '';
-            for (var i=0; i<rooms.length; i++) {
-                if(this.state.roomName == rooms[i].name){
-                  selectedRoomId = rooms[i].roomId;
-                }
-            }
-          var details = `Wire Transfer Details:
-          Bank Name: ${bankName.value}
-          Bank Address: ${bankAddress.value}
-          Account Owner Name: ${accountOwnerName.value}
-          Bank Routing Number: ${bankRoutingNumber.value}
-          Bank Account Number: ${bankAccNumber.value}
-          `;
-          var sendMessagePromise = MatrixClientPeg.get().sendTextMessage(selectedRoomId, details);
-          dis.dispatch({
-            action: 'view_room',
-            room_id: selectedRoomId,
-          });
-          sendMessagePromise.done(function(res) {
-              dis.dispatch({
-                  action: 'message_sent'
-              });
-          });
-        }
-      }
-      else{
-        alert("Please join a room before sending Wire Transfer Details!");
-      }
     },
 
     translate: function(s) {
@@ -160,14 +91,6 @@ module.exports = React.createClass({
     },
 
     render: function() {
-      var rooms = MatrixClientPeg.get().getRooms();
-      if(roomList.length!=0) {
-        roomList = [];
-      }
-      for (var i=0; i<rooms.length; i++) {
-          roomList.push(<span key={rooms[i].name}>{rooms[i].name}</span>);
-      }
-      const Dropdown = sdk.getComponent('elements.Dropdown');
         if (this.state.iframeSrc) {
             return (
                 <div className="mx_HomePage">
@@ -178,32 +101,7 @@ module.exports = React.createClass({
         else {
             return (
                 <GeminiScrollbar autoshow={true} className="mx_HomePage">
-                    <div className="mx_HomePage_body">
-                      <div className = "mx_Login_box">
-                          <div className="mx_Login_logo">
-                            <img src="home/images/logo.png"/>
-                          </div>
-                          <button id="WireButton" className = "mx_Login_submit" onClick={this.showForm}>Send Wiring Information</button>
-                          <div id ='formDiv' className = "mx_Login_type_container_home">
-                            <form id = "detailsForm">
-                              <input type="text" id = 'bName' className = "mx_Login_field" name = "bankName" placeholder="Bank Name"/>
-                              <input type="text" id = 'bAddress' className = "mx_Login_field" name = "bankAddress" placeholder="Bank Address"/>
-                              <input type="text" id = 'accOwnerName' className = "mx_Login_field" name = "accountOwnerName" placeholder="Account Owner Name"/>
-                              <input type="text" id = 'bRoutingNumber' className = "mx_Login_field" name = "bankRoutingNumber" placeholder="Bank Routing Number"/>
-                              <input type="text" id = 'bAccountNumber' className = "mx_Login_field" name = "bankAccountNumber" placeholder="Bank Account Number"/>
-                              <div className="container_home">
-                                <div className="one"><label className="mx_Login_type_label_home">Send to Room: </label></div>
-                                <div className="two"><Dropdown className="mx_Login_type_dropdown_home"
-                                  onOptionChange={this._onRoomSelection}
-                                  value={this.state.roomName}
-                                  >{roomList}
-                                </Dropdown></div>
-                              </div>
-                              <a href="javascript:document.getElementById('detailsForm').reset();" className = "mx_Login_label_Home">Reset</a>
-                              <input type="button" onClick={this.saveFormData} className = "mx_Home_submit" value = "Submit"/>
-                            </form>
-                          </div>
-                        </div>
+                    <div className="mx_HomePage_body" dangerouslySetInnerHTML={{ __html: this.state.page }}>
                     </div>
                 </GeminiScrollbar>
             );
