@@ -4,7 +4,7 @@
     "brand": "Wiresafe",
     "integrations_ui_url": "",
     "integrations_rest_url": "",
-    "bug_report_endpoint_url": "https://riot.im/bugreports/submit",
+    "bug_report_endpoint_url": "https://github.com/wiresafe/riot-web/issues",
     "enableLabs": false,
     "roomDirectory": {
         "servers": [
