@@ -33,9 +33,46 @@
            <link rel="stylesheet" href="<%= file %>">
         <% }
     } %>
+    <!-- update the version number as needed -->
+    <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase-database.js"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/2.3.0/firebaseui.js"></script>
+    <!-- initialize the SDK after all desired features are loaded -->
+    <script defer src="/firebase_auth/firebase_auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.3.0/firebaseui.css"/>
+    <style type="text/css">
+        #firebase-auth-container {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background-color: white;
+            z-index: -1;
+        }
+        #logo-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center
+        }
+        #logo {
+            display: block;
+        }
+        .mx_Login_box {
+            display: none !important;
+        }
+    </style>
   </head>
   <body style="height: 100%;">
     <section id="matrixchat" style="height: 100%;"></section>
+<div id="firebase-auth-container">
+    <div id="logo-wrap">
+        <img id="logo" src="/home/images/logo.png" width="300px">
+    </div>
+    <div id="firebase-auth-ui"></div>
+</div>
     <noscript>Sorry, Riot requires JavaScript to be enabled.</noscript> <!-- TODO: Translate this? -->
     <% for (var i=0; i < htmlWebpackPlugin.files.js.length; i++) {
         // Not a particularly graceful way of not putting the indexeddb worker script

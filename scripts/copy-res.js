@@ -48,6 +48,7 @@ const COPY_LIST = [
     ["node_modules/emojione/assets/svg/*", "webapp/emojione/svg/"],
     ["node_modules/emojione/assets/png/*", "webapp/emojione/png/"],
     ["./config.json", "webapp", { directwatch: 1 }],
+    ["firebase_auth/**", "webapp/firebase_auth"],
 ];
 
 INCLUDE_LANGS.forEach(function(l) {
