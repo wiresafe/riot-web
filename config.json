@@ -1,0 +1,19 @@
+{
+    "default_hs_url": "https://neo.wiresafe.com",
+    "default_is_url": "https://neo-identity.wiresafe.com",
+    "brand": "Wiresafe",
+    "integrations_ui_url": "",
+    "integrations_rest_url": "",
+    "bug_report_endpoint_url": "https://github.com/wiresafe/riot-web/issues",
+    "enableLabs": false,
+    "roomDirectory": {
+        "servers": [
+            "neo.wiresafe.com"
+        ]
+    },
+    "welcomeUserId": "",
+    "piwik": {
+        "url": "",
+        "siteId": 1
+    }
+}
