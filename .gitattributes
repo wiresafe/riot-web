@@ -1,5 +1,0 @@
-README.md merge=ours
-config.json merge=ours
-build-prod.yaml merge=ours
-build-stage.yaml merge=ours
-Dockerfile merge=ours
