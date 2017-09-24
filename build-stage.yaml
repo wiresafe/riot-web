@@ -17,5 +17,5 @@ steps:
   - 'set'
   - 'image'
   - 'deploy/riot'
-  - 'riot=gcr.io/wiresafe-project/riot-web-wiresafe-stage:$REVISION_ID'
+  - 'riot=gcr.io/wiresafe-project/riot-stage:$REVISION_ID'
   - '--namespace=riot-stage'
