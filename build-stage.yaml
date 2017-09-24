@@ -16,6 +16,6 @@ steps:
   args:
   - 'set'
   - 'image'
-  - 'deploy/riot-stage'
+  - 'deploy/riot'
   - 'riot=gcr.io/wiresafe-project/riot-web-wiresafe-stage:$REVISION_ID'
   - '--namespace=riot-stage'
