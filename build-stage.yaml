@@ -3,19 +3,19 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args:
   - 'build'
-  - '--tag=gcr.io/wiresafe-project/stage-chat:$REVISION_ID'
+  - '--tag=gcr.io/wiresafe-project/riot-stage:$REVISION_ID'
   - '.'
 - name: 'gcr.io/cloud-builders/docker'
   args:
   - 'push'
-  - 'gcr.io/wiresafe-project/stage-chat:$REVISION_ID'
+  - 'gcr.io/wiresafe-project/riot-stage:$REVISION_ID'
 - name: 'gcr.io/cloud-builders/kubectl'
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=us-central1-b'
-  - 'CLOUDSDK_CONTAINER_CLUSTER=matrix-cluster'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=wiresafe'
   args:
   - 'set'
   - 'image'
-  - 'deploy/stage-chat'
-  - 'stage-chat=gcr.io/wiresafe-project/stage-chat:$REVISION_ID'
-  - '--namespace=chat'
+  - 'deploy/riot-stage'
+  - 'riot=gcr.io/wiresafe-project/riot-web-wiresafe-stage:$REVISION_ID'
+  - '--namespace=riot-stage'
