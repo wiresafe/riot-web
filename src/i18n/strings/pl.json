@@ -205,6 +205,5 @@
     "Warning": "Ostrzeżenie",
     "Error encountered (%(errorDetail)s).": "Wystąpił błąd (%(errorDetail)s).",
     "Downloading update...": "Pobieranie aktualizacji...",
-    "Checking for an update...": "Sprawdzanie aktualizacji...",
-    "Couldn't load home page": "Nie można załadować strony startowej"
+    "Checking for an update...": "Sprawdzanie aktualizacji..."
 }

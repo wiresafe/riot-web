@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: chat
+  namespace: chat
+spec:
+  selector:
+    matchLabels:
+      app: chat
+  template:
+    metadata:
+      labels:
+        app: chat
+    spec:
+      containers:
+      - image: gcr.io/wiresafe-project/riot:latest
+        name: chat
+        ports:
+        - containerPort: 80
+          name: http
