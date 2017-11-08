@@ -38,7 +38,6 @@ module.exports = React.createClass({
             roomsHover : false,
             homeHover: false,
             peopleHover : false,
-            wiringHover : false,
             settingsHover : false,
         });
     },
@@ -46,7 +45,6 @@ module.exports = React.createClass({
     componentWillMount: function() {
         this._dispatcherRef = dis.register(this.onAction);
         this._peopleButton = null;
-        this._wiringButton = null;
         this._directoryButton = null;
         this._createRoomButton = null;
         this._lastCallouts = {};
@@ -107,19 +105,6 @@ module.exports = React.createClass({
         this.setState({ peopleHover: false });
     },
 
-    // Wiring events
-    onWiringClick: function() {
-        dis.dispatch({ action: 'view_send_wiring_information' });
-    },
-
-    onWiringMouseEnter: function() {
-        this.setState({ wiringHover: true });
-    },
-
-    onWiringMouseLeave: function() {
-        this.setState({ wiringHover: false });
-    },
-
     // Settings events
     onSettingsClick: function() {
         dis.dispatch({ action: 'view_user_settings' });
@@ -139,9 +124,6 @@ module.exports = React.createClass({
             // Incoming instruction: dance!
             case 'callout_start_chat':
                 calloutElement = this._peopleButton;
-                break;
-            case 'callout_send_wiring_information':
-                calloutElement = this._wiringButton;
                 break;
             case 'callout_room_directory':
                 calloutElement = this._directoryButton;
@@ -172,10 +154,6 @@ module.exports = React.createClass({
         this._peopleButton = e;
     },
 
-    _collectWiringButton: function(e) {
-        this._wiringButton = e;
-    },
-
     _collectDirectoryButton: function(e) {
         this._directoryButton = e;
     },
@@ -187,7 +165,6 @@ module.exports = React.createClass({
     render: function() {
         const HomeButton = sdk.getComponent('elements.HomeButton');
         const StartChatButton = sdk.getComponent('elements.StartChatButton');
-        const SendWiringInformationButton = sdk.getComponent('elements.SendWiringInformationButton');
         const RoomDirectoryButton = sdk.getComponent('elements.RoomDirectoryButton');
         const CreateRoomButton = sdk.getComponent('elements.CreateRoomButton');
         const SettingsButton = sdk.getComponent('elements.SettingsButton');
@@ -204,9 +181,6 @@ module.exports = React.createClass({
                     </div>
                     <div ref={this._collectCreateRoomButton}>
                         <CreateRoomButton tooltip={true} />
-                    </div>
-                    <div>
-                        <SendWiringInformationButton tooltip={true} />
                     </div>
                     <span className="mx_BottomLeftMenu_settings">
                         <SettingsButton tooltip={true} />

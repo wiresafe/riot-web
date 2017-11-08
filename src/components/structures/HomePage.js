@@ -44,8 +44,6 @@ module.exports = React.createClass({
         teamToken: React.PropTypes.string,
         // URL to use as the iFrame src. Defaults to /home.html.
         homePageUrl: React.PropTypes.string,
-
-        showWiringButton: React.PropTypes.Boolean,
     },
 
     getInitialState: function() {
@@ -162,85 +160,53 @@ module.exports = React.createClass({
     },
 
     render: function() {
-      if(!this.props.showWiringButton) {
-        var rooms = MatrixClientPeg.get().getRooms();
-        if(roomList.length!=0) {
-          roomList = [];
-        }
-        for (var i=0; i<rooms.length; i++) {
-            roomList.push(<span key={rooms[i].name}>{rooms[i].name}</span>);
-        }
-        const Dropdown = sdk.getComponent('elements.Dropdown');
-          if (this.state.iframeSrc) {
-              return (
-                  <div className="mx_HomePage">
-                      <iframe src={ this.state.iframeSrc } />
-                  </div>
-              );
-          }
-          else {
-              return (
-                  <GeminiScrollbar autoshow={true} className="mx_HomePage">
-                      <div className="mx_HomePage_body">
-                        <div className = "mx_Login_box">
-                            <div className="mx_Login_logo">
-                              <img src="home/images/logo.png"/>
-                            </div>
-                        </div>
-                      </div>
-                  </GeminiScrollbar>
-              );
-          }
-        }
-      else{
-        var rooms = MatrixClientPeg.get().getRooms();
-        if(roomList.length!=0) {
-          roomList = [];
-        }
-        for (var i=0; i<rooms.length; i++) {
-            roomList.push(<span key={rooms[i].name}>{rooms[i].name}</span>);
-        }
-        const Dropdown = sdk.getComponent('elements.Dropdown');
-          if (this.state.iframeSrc) {
-              return (
-                  <div className="mx_HomePage">
-                      <iframe src={ this.state.iframeSrc } />
-                  </div>
-              );
-          }
-          else {
-              return (
-                  <GeminiScrollbar autoshow={true} className="mx_HomePage">
-                      <div className="mx_HomePage_body">
-                        <div className = "mx_Login_box">
-                            <div className="mx_Login_logo">
-                              <img src="home/images/logo.png"/>
-                            </div>
-                            <button id="WireButton" className = "mx_Login_submit" onClick={this.showForm}>Send Wiring Information</button>
-                            <div id ='formDiv' className = "mx_Login_type_container_home">
-                              <form id = "detailsForm">
-                                <input type="text" id = 'bName' className = "mx_Login_field" name = "bankName" placeholder="Bank Name"/>
-                                <input type="text" id = 'bAddress' className = "mx_Login_field" name = "bankAddress" placeholder="Bank Address"/>
-                                <input type="text" id = 'accOwnerName' className = "mx_Login_field" name = "accountOwnerName" placeholder="Account Owner Name"/>
-                                <input type="text" id = 'bRoutingNumber' className = "mx_Login_field" name = "bankRoutingNumber" placeholder="Bank Routing Number"/>
-                                <input type="text" id = 'bAccountNumber' className = "mx_Login_field" name = "bankAccountNumber" placeholder="Bank Account Number"/>
-                                <div className="container_home">
-                                  <div className="one"><label className="mx_Login_type_label_home">Send to Room: </label></div>
-                                  <div className="two"><Dropdown className="mx_Login_type_dropdown_home"
-                                    onOptionChange={this._onRoomSelection}
-                                    value={this.state.roomName}
-                                    >{roomList}
-                                  </Dropdown></div>
-                                </div>
-                                <a href="javascript:document.getElementById('detailsForm').reset();" className = "mx_Login_label_Home">Reset</a>
-                                <input type="button" onClick={this.saveFormData} className = "mx_Home_submit" value = "Submit"/>
-                              </form>
-                            </div>
-                        </div>
-                      </div>
-                  </GeminiScrollbar>
-              );
-          }
+      var rooms = MatrixClientPeg.get().getRooms();
+      if(roomList.length!=0) {
+        roomList = [];
       }
+      for (var i=0; i<rooms.length; i++) {
+          roomList.push(<span key={rooms[i].name}>{rooms[i].name}</span>);
+      }
+      const Dropdown = sdk.getComponent('elements.Dropdown');
+        if (this.state.iframeSrc) {
+            return (
+                <div className="mx_HomePage">
+                    <iframe src={ this.state.iframeSrc } />
+                </div>
+            );
+        }
+        else {
+            return (
+                <GeminiScrollbar autoshow={true} className="mx_HomePage">
+                    <div className="mx_HomePage_body">
+                      <div className = "mx_Login_box">
+                          <div className="mx_Login_logo">
+                            <img src="home/images/logo.png"/>
+                          </div>
+                          <button id="WireButton" className = "mx_Login_submit" onClick={this.showForm}>Send Wiring Information</button>
+                          <div id ='formDiv' className = "mx_Login_type_container_home">
+                            <form id = "detailsForm">
+                              <input type="text" id = 'bName' className = "mx_Login_field" name = "bankName" placeholder="Bank Name"/>
+                              <input type="text" id = 'bAddress' className = "mx_Login_field" name = "bankAddress" placeholder="Bank Address"/>
+                              <input type="text" id = 'accOwnerName' className = "mx_Login_field" name = "accountOwnerName" placeholder="Account Owner Name"/>
+                              <input type="text" id = 'bRoutingNumber' className = "mx_Login_field" name = "bankRoutingNumber" placeholder="Bank Routing Number"/>
+                              <input type="text" id = 'bAccountNumber' className = "mx_Login_field" name = "bankAccountNumber" placeholder="Bank Account Number"/>
+                              <div className="container_home">
+                                <div className="one"><label className="mx_Login_type_label_home">Send to Room: </label></div>
+                                <div className="two"><Dropdown className="mx_Login_type_dropdown_home"
+                                  onOptionChange={this._onRoomSelection}
+                                  value={this.state.roomName}
+                                  >{roomList}
+                                </Dropdown></div>
+                              </div>
+                              <a href="javascript:document.getElementById('detailsForm').reset();" className = "mx_Login_label_Home">Reset</a>
+                              <input type="button" onClick={this.saveFormData} className = "mx_Home_submit" value = "Submit"/>
+                            </form>
+                          </div>
+                        </div>
+                    </div>
+                </GeminiScrollbar>
+            );
+        }
     }
 });
